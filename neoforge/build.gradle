@@ -1,3 +1,5 @@
+import dev.ryanhcode.sable.gradle.VeilImGuiCompatibilityPatcher
+
 plugins {
     id 'me.modmuss50.mod-publish-plugin'
     id 'multiloader-loader'
@@ -103,4 +105,10 @@ dependencies {
     jarJar(runtimeOnly(project(path: ":sable_rapier", configuration: "runtimeElements")))
 
     compileOnly("foundry.imguimc:imguimc-neoforge-${project.minecraft_version}:${project.imguimc_version}")
+}
+
+tasks.named('jar', Jar) {
+    doLast {
+        VeilImGuiCompatibilityPatcher.patchNestedVeilJar(archiveFile.get().asFile.toPath())
+    }
 }
